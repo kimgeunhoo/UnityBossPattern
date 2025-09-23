@@ -13,12 +13,24 @@ public partial class MoveToTargetLocation2DAction : Action
     [SerializeReference] public BlackboardVariable<float> Speed;
     [SerializeReference] public BlackboardVariable<float> StoppingDistance;
     Rigidbody2D rigidbody2D;
+    Animator animator;
+    SpriteRenderer spriteRenderer;
 
     // Animator 접근을 해서 SetBool 통해 이동. Self GameObject Animator를 가져와서, animator 변수에 저장하고, Update true, Success, false
-    [SerializeReference] public BlackboardVariable<Animator> MushroomAnimator;
+    
 
     protected override Status OnStart()
     {
+        if (Self.Value.TryGetComponent<Animator>(out var anim))
+        {
+            animator = anim;
+        }
+
+        if(Self.Value.TryGetComponent<SpriteRenderer>(out var _spriteRenderer))
+        {
+            this.spriteRenderer = _spriteRenderer;
+        }
+
         if (Vector3.Distance(Self.Value.transform.position, TargetLoaction.Value) < 0.1f)
         {
 
@@ -36,22 +48,31 @@ public partial class MoveToTargetLocation2DAction : Action
         {
             return Status.Failure;
         }
-
         
     }
 
     protected override Status OnUpdate()
     {
+        if(Self.Value.transform.position.x < TargetLoaction.Value.x) // player 추적 코드
+        {
+            spriteRenderer.flipX = true; // 항상 왼쪽
+        } 
+        else
+        {
+            spriteRenderer.flipX = false;// 항상 오른쪽
+        }  
+
         if (Vector3.Distance(Self.Value.transform.position, TargetLoaction.Value) < StoppingDistance) // StoppingDistance
         {
-            //MushroomAnimator.ObjectValue = Self.Value;
+            animator.SetBool("IsRun", false);
+          
             rigidbody2D.linearVelocity = Vector2.zero;
             return Status.Success;
         }
         else 
         {
+            animator.SetBool("IsRun", true);
             rigidbody2D.linearVelocity = (TargetLoaction.Value - Self.Value.transform.position).normalized * Speed.Value; //방향으로 이동
-
             return Status.Running;
         }
     }

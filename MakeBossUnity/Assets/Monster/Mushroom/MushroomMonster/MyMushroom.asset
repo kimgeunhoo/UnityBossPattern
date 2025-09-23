@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db920e62f70f420bb33c771449926fa4, type: 3}
-  m_Name: Mushroom
+  m_Name: MyMushroom
   m_EditorClassIdentifier: 
   Graphs:
   - rid: 6502349567932760390
@@ -58,8 +58,8 @@ MonoBehaviour:
       type: {class: BehaviorGraphModule, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         AuthoringAssetID:
-          m_Value0: 10690559109704884250
-          m_Value1: 7851135424235601464
+          m_Value0: 11836070222089508432
+          m_Value1: 3578933141542751835
         m_DebugInfo: {fileID: -5177667295472354094}
         BlackboardReference:
           rid: 6502349567932760391
@@ -386,7 +386,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b27bb6d9a2c8d540a10dff10acc543e, type: 3}
-  m_Name: Mushroom Debug Info
+  m_Name: MyMushroom Debug Info
   m_EditorClassIdentifier: 
   m_CodeBreakPointsList: []
 --- !u!114 &-4365089664285670023
@@ -399,11 +399,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2dd922ae02c94c87a66e46a10a7319b9, type: 3}
-  m_Name: Mushroom Blackboard
+  m_Name: MyMushroom Blackboard
   m_EditorClassIdentifier: 
   AssetID:
-    m_Value0: 10690559109704884250
-    m_Value1: 7851135424235601464
+    m_Value0: 11836070222089508432
+    m_Value1: 3578933141542751835
   m_Variables:
   - rid: 6502349543942389980
   - rid: 6502349543942390043
@@ -477,7 +477,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c02bb70996b49eba31d0c206e28da24, type: 3}
-  m_Name: Mushroom Blackboard
+  m_Name: MyMushroom Blackboard
   m_EditorClassIdentifier: 
   VersionTimestamp: 638942453940010012
   AssetID:
@@ -544,7 +544,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bad8f2220607dac4db5082ff333fafb8, type: 3}
-  m_Name: Mushroom
+  m_Name: MyMushroom
   m_EditorClassIdentifier: 
   Blackboard: {fileID: -4365089664285670023}
   m_Description: 
@@ -574,8 +574,8 @@ MonoBehaviour:
   m_DebugInfo: {fileID: -5177667295472354094}
   m_RuntimeGraph: {fileID: -7588004853983505390}
   AssetID:
-    m_Value0: 10690559109704884250
-    m_Value1: 7851135424235601464
+    m_Value0: 11836070222089508432
+    m_Value1: 3578933141542751835
   Story:
     Story: 
     StoryVariableNames: []
