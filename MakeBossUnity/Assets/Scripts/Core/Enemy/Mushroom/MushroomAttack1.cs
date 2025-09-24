@@ -1,0 +1,98 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MushroomAttack1 : ActionBehavior
+{
+    Transform target;
+    Animator animator;
+
+    [SerializeField] float waitTimeForCharging = 1f;    // 차지 시간
+    [SerializeField] GameObject projectilePrefab;       // 투사체
+    [SerializeField] float projectileRange = 180f;      // 투사체 발사 각도
+    [SerializeField] int loopCount = 2;                 // 패턴의 반복 횟수
+
+    [SerializeField] float RightAngle = -60f;
+    [SerializeField] float LeftAngle = 120f;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+    public override void OnStart()
+    {
+        StartCoroutine(ChargingPattern());
+    }
+
+    public override void OnUpdate()
+    {
+        
+    }
+    public override void OnEnd()
+    {
+         // 패턴을 시작할 때 초기화 해야하는 코드가 있다면 여기서 설정한다.
+    }
+
+    IEnumerator ChargingPattern()
+    {
+        // 기를 모은다.
+        // 기 모으는 애니메이션 실행 -> 최대한 비슷하게 뭔가 해볼것
+        animator.SetTrigger("Attack1");
+        yield return new WaitForSeconds(waitTimeForCharging);
+
+        for (int i = 0; i < loopCount; i++)
+        {
+            // 180도 각도로 투사체를 발사한다.
+            Fire();
+            yield return new WaitForSeconds(1f);
+        }
+
+        animator.SetTrigger("Stun");
+        yield return new WaitForSeconds(2f);
+        animator.SetBool("IsRun", true);
+        isPatternEnd = true;
+    }
+
+    private void Fire()
+    {
+        // 내 위치와 TargetLoaction 위치를 비교해서 flip
+        // 내 위치와 TargetLocation 위치를 비교해서 각도 계산
+
+        float currentAngle = SelectAngleByPlayerPosition();
+
+        float deltaAngle = projectileRange / 10;
+
+        for(int i = 0; i < 10; i++) // 10 - numberofprojectiles
+        {
+            GameObject projectileInstance = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+
+            float dirx = Mathf.Cos(currentAngle * Mathf.Deg2Rad);
+            float diry = Mathf.Sin(currentAngle * Mathf.Deg2Rad);
+
+            Vector2 Spawn = new Vector2(transform.position.x + dirx, transform.position.y + diry);
+            Vector2 dir = (Spawn - (Vector2)transform.position).normalized;
+
+            if (projectileInstance.TryGetComponent<Rigidbody2D>(out var rb))
+            {
+                rb.linearVelocity = dir * 5f;
+            }
+
+            currentAngle += deltaAngle;
+        }
+    }
+
+    private float SelectAngleByPlayerPosition()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (transform.position.x < player.transform.position.x)
+        {
+            return RightAngle;
+        }
+        else
+        {
+            return LeftAngle;
+        }
+    }
+}
