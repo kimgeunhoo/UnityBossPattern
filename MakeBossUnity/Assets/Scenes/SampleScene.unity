@@ -203,7 +203,7 @@ Transform:
   m_GameObject: {fileID: 80295649}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.9133, y: 1.0166, z: 0}
+  m_LocalPosition: {x: 3.39, y: -0.68, z: 0}
   m_LocalScale: {x: 0.5266, y: 0.5266, z: 0.5266}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -605,9 +605,10 @@ GameObject:
   - component: {fileID: 786006410}
   - component: {fileID: 786006414}
   - component: {fileID: 786006413}
+  - component: {fileID: 786006415}
   - component: {fileID: 786006416}
   - component: {fileID: 786006417}
-  - component: {fileID: 786006415}
+  - component: {fileID: 786006418}
   m_Layer: 0
   m_Name: Mushroom
   m_TagString: Untagged
@@ -701,7 +702,7 @@ Transform:
   m_GameObject: {fileID: 786006409}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.48, y: 0.67, z: 0}
+  m_LocalPosition: {x: -1.39, y: -0.57, z: 0}
   m_LocalScale: {x: 3.9215, y: 3.9215, z: 3.9215}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -727,6 +728,8 @@ MonoBehaviour:
   - rid: 6502349566416257389
   - rid: 940644842353721720
   - rid: 940644842353721967
+  - rid: 940644863955174004
+  - rid: 940644863955174151
   m_IsInitialised: 0
   m_IsStarted: 0
   references:
@@ -748,6 +751,23 @@ MonoBehaviour:
           m_Value1: 259583119884671905
         Name: Attack2
         m_Value: {fileID: 786006417}
+    - rid: 940644863955174004
+      type: {class: 'BlackboardVariable`1[[EnemyState, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 13270479094895648823
+          m_Value1: 198958763213282676
+        Name: EnemyState
+        m_Value: 0
+    - rid: 940644863955174151
+      type: {class: 'BlackboardVariable`1[[System.Collections.Generic.List`1[[UnityEngine.GameObject, UnityEngine.CoreModule]], mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 15718806126977011483
+          m_Value1: 14302882955102481755
+        Name: StopActions
+        m_Value:
+        - {fileID: 786006409}
     - rid: 6502349543942390075
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -792,6 +812,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb79e6c561a0adb4caf49b1ad39903fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startState: 0
+  maxHealth: 100
+  <CurrentHealth>k__BackingField: 0
 --- !u!50 &786006415
 Rigidbody2D:
   serializedVersion: 5
@@ -807,7 +830,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -818,7 +841,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &786006416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -856,6 +879,52 @@ MonoBehaviour:
   projectileRange: 180
   loopCount: 2
   StunTime: 2
+--- !u!61 &786006418
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 786006409}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.32, y: 0.34}
+    newSize: {x: 0.32, y: 0.34}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.32, y: 0.34}
+  m_EdgeRadius: 0
 --- !u!1 &1606880728
 GameObject:
   m_ObjectHideFlags: 0
