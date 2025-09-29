@@ -13,6 +13,10 @@ public class Player : MonoBehaviour
     [SerializeField] LayerMask groundMask;
     [SerializeField] private float groundCheckDistance = 1f;
 
+    [SerializeField] private int MaxHealth = 100;
+
+    [field: SerializeField] public int CurrentHealth { get; private set; }
+
     public bool IsJump;
 
     public Action<bool> OnFire;

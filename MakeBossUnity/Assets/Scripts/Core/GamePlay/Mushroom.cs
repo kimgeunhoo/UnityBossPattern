@@ -13,6 +13,15 @@ public class Mushroom : MonoBehaviour, IDamagable
 
     [SerializeField] int maxHealth = 100;
     [field:SerializeField] public int CurrentHealth { get; private set; }
+    public Action<int, int> OnHealthbarUpdate { get; set; }
+
+    public Action<bool> OnPatternStart;     // Action, Func 함수를 변수처럼 저장해서 사용하겠다. void 이름(bool enable)
+    public Action<string, bool> OnSomeFuncStart;
+
+
+    [SerializeField] ParticleSystem rageVFX; // 보스가 레이지 모드가 되었을 때 발동하는 이펙트
+
+
     private void Awake()
     {
         behaviorAgent = GetComponent<BehaviorGraphAgent>();
@@ -20,17 +29,61 @@ public class Mushroom : MonoBehaviour, IDamagable
     private void Start()
     {
         behaviorAgent.SetVariableValue<EnemyState>("EnemyState", startState);
-        behaviorAgent.SetVariableValue<Boolean>("IsPatternTrigger", true);
         CurrentHealth = maxHealth;
+
+        OnHealthbarUpdate?.Invoke(CurrentHealth, maxHealth); // 연속 전투할때 갱신
     }
+
+    private void OnEnable()
+    {
+        OnPatternStart += HandlePatternStart;
+        OnSomeFuncStart += HandleSomeFuncStart;
+    }
+
+    private void OnDisable()
+    {
+        OnPatternStart -= HandlePatternStart;
+        OnSomeFuncStart -= HandleSomeFuncStart;
+    }
+
+    private void HandlePatternStart(bool enable)
+    {
+        Debug.Log("HandlePatternStart 함수 실행");
+        behaviorAgent.SetVariableValue<Boolean>("IsPatternTrigger", enable);      // 어떤 이벤트가 실행되었을 때
+
+        if (rageVFX.isPlaying) { return; } // 반복적인 플레이 호출 방지
+
+        rageVFX.Play();
+    }
+
+    private void HandleSomeFuncStart(string methodName, bool enable) // 함수를 변수처럼 사용하고 싶다. -> Action<string, bool>
+    {
+        Debug.Log("HandleSomeFuncStart 함수 실행");
+        behaviorAgent.SetVariableValue<Boolean>(methodName, enable);
+    }
+
+
     public void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
 
+        // 아이템 버프 등등의 부가효과 적용 뒤에
+
+        OnHealthbarUpdate?.Invoke(CurrentHealth, maxHealth); // 체력을 업데이트하는 함수를 실행하라고 명령 Invoke
+
+
+        if (CurrentHealth < maxHealth * 0.5f)
+        {
+            OnPatternStart?.Invoke(true);
+            //OnSomeFuncStart?.Invoke("IsPatternTrigger", true);
+            // 보스 체력이 일정 이하가 된다면 패턴 강화, 2페이즈 등
+            
+        }
+
         if(IsStun())
         {
             StunRaise();
-            return; // 스턴이 걸렸다면 죽음 판정을 하지 않는다.
+            //return; // 스턴이 걸렸다면 죽음 판정을 하지 않는다.
         }
 
         if (CurrentHealth <= 0)
