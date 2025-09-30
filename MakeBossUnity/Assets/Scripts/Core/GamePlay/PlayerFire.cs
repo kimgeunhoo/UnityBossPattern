@@ -14,11 +14,14 @@ public class PlayerFire : MonoBehaviour
     bool shouldFire;            // true 일때 발사 가능
     float previousFireTime;     // 직전에 총알을 발사한 시간
 
+    AudioSource audioSource;
+
     int playerForwardDir = 1;
 
     private void Awake()
     {
         player = GetComponent<Player>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnEnable()
@@ -34,6 +37,8 @@ public class PlayerFire : MonoBehaviour
     private void HandleFire(bool enable)
     {
         shouldFire = enable;
+        audioSource.clip = Resources.Load<AudioClip>("Sound/Jump");
+        audioSource.Play();
     }
 
     private void Update()

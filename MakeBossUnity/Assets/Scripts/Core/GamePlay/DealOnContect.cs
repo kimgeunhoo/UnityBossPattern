@@ -6,6 +6,8 @@ public class DealOnContect : MonoBehaviour
 
     [SerializeField] private int applyDamage = 5;
 
+    [SerializeField] private ParticleSystem[] contactVFXs;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -19,7 +21,16 @@ public class DealOnContect : MonoBehaviour
             SetApplyDamage();
             damageable.TakeDamage(applyDamage);
 
-            Destroy(gameObject);
+            if (contactVFXs != null) 
+            {
+                foreach (var effect in contactVFXs)
+                {
+                    effect.Play();
+                }
+            }
+            //Destroy(gameObject);
+            // 총알의 이미지를 비활성화 하고
+            // 파티클 이펙트가 종료되었을 때 게임 오브젝트 파괴
         }
     }
 
@@ -27,5 +38,5 @@ public class DealOnContect : MonoBehaviour
     {
         
     }
-
+    
 }

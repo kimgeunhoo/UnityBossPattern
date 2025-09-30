@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamagable
 {
     public Controls controls;
     Rigidbody2D rb;
@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private int MaxHealth = 100;
 
+    AudioSource audioSource;
+
     [field: SerializeField] public int CurrentHealth { get; private set; }
 
     public bool IsJump;
@@ -24,6 +26,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -66,8 +69,11 @@ public class Player : MonoBehaviour
     private void Move()
     {
         float dir = controls.Player.Move.ReadValue<float>();
-
         rb.linearVelocity = new Vector2(dir * speed, rb.linearVelocityY);
+
+        // audiosource  소스가 끝나고 난 후에 실행하도록 만드는 코드
+        audioSource.clip = Resources.Load<AudioClip>("Sound/Player_Step_wood");
+        audioSource.Play();
     }
 
     private void HandleJump(InputAction.CallbackContext context)
@@ -75,6 +81,8 @@ public class Player : MonoBehaviour
         if(IsGround() && !IsJump)
         {
             IsJump = true;
+            audioSource.clip = Resources.Load<AudioClip>("Sound/Jump");
+            audioSource.Play();
             rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
         }
 
@@ -95,5 +103,10 @@ public class Player : MonoBehaviour
 
         Gizmos.DrawLine(transform.position, 
             transform.position + (Vector3)(Vector2.down * groundCheckDistance));// ne Vector3 (0, -1 * 3 ,0)
+    }
+
+    public void TakeDamage(int damage)
+    {
+        CurrentHealth -= damage;
     }
 }
